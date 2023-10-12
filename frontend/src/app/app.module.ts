@@ -5,16 +5,23 @@ import { AppComponent } from './app.component';
 import { TodocrudComponent } from './todocrud/todocrud.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodocrudComponent
+    TodocrudComponent,
+    SuccessDialogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

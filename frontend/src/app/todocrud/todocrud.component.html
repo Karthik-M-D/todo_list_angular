@@ -1,38 +1,46 @@
-<div class="container mt-4" >
+<div class="main_container">
+  <div class="container mt-4">
     <div class="card">
-            <h1>ToDO List</h1>
-    
-    <form>
-        <div class="form-group">
-          <label>Task</label>
-          <input type="text" [(ngModel)]="task" [ngModelOptions]="{standalone: true}" class="form-control" id="stname" placeholder="Enter Task">
+      <h3 style="text-align: center;" class="mt-4">ToDO List</h3>
+
+      <form>
+        <div class="input-group mb-4">
+          <input type="text" #taskInput [(ngModel)]="task" [ngModelOptions]="{standalone: true}"
+            class="form-control inp" id="stname" placeholder="Enter Task">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-4" (click)="save()" >Save</button>
-       
       </form>
     </div>
-    
-  
-    
-        <div class="container mt-4" >
-            <h1>ToDo Task Table</h1>
-        <table class="table">
-            <thead>
-             <h1 *ngIf="!isResultLoaded">Loading.................</h1>      
+
+    <div class="container mt-4 main-box">
+      <h3 style="text-align: center;">Task Table</h3>
+      <div class="table_container">
+        <table class="table tb_cls">
+          <thead class="thead-light">
+            <h1 *ngIf="!isResultLoaded">Loading.................</h1>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Tasks</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let TaskItem of TodoArray">
-                <td>{{TaskItem.id  }}</td>
-                <td>{{TaskItem.task }}</td>
-                <td>
-                  <button type="button" class="btn btn-success" (click)="setUpdate(TaskItem)">Edit</button>
-                  <button type="button" class="btn btn-danger" (click)="setDelete(TaskItem)">Delete</button>            
-                </td>
-              </tr>          
-            </tbody>
-          </table>
-        </div>
+              <th scope="col">ID</th>
+              <th scope="col">Tasks</th>
+              <th scope="col">Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let TaskItem of TodoArray">
+              <td>{{TaskItem.id }}</td>
+              <td>{{TaskItem.task }}</td>
+              <td>{{TaskItem.date}}</td>
+              <td>
+                <button type="button" class="btn btn-success updbtn" (click)="setUpdate(TaskItem)">Edit</button>
+                <button type="button" class="btn btn-danger" (click)="setDelete(TaskItem)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="foot">
+      <p class="footer-content">&#169; 2023 Karthik M D: Thanks for visiting my page :)</p>
+    </div>
+  </div>

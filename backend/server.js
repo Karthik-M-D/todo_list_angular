@@ -10,81 +10,86 @@ server.use(bodyParser.json());
 
 //db conn
 const db = mysql.createConnection({
-    host : "localhost",
-    user : "root",
-    password : "",
-    database : "dbtodo"
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "dbtodo",
+    dateStrings: 'date'
 });
 
-db.connect(function(error){
-    if(error){
+db.connect(function (error) {
+    if (error) {
         console.log("Error connecting to the db");
-    }else{
+    } else {
         console.log("Successfully connected to the db");
     }
 })
 
 
 //establish the port
-server.listen(9002,function check(error){
-    if(error){
+server.listen(9002, function check(error) {
+    if (error) {
         console.log("Error listening");
-    }else{
+    } else {
         console.log("Started listening");
     }
 })
 
 
 //creating a task
-server.post("/api/todo/add",(req,res)=>{
+server.post("/api/todo/add", (req, res) => {
+    let currentDate = new Date();
+    let date = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
     let details = {
-        task : req.body.task,
+        task: req.body.task,
+        date: date,
     }
 
     let sql = "INSERT INTO todo SET ?";
-    db.query(sql,details,(error)=>{
-        if(error){
-            res.send({status: false,message: "Task creation is failed"});
-        }else{
-            res.send({status: true,message: "Task creation is success"});
+    db.query(sql, details, (error) => {
+        if (error) {
+            res.send({ status: false, message: "Task creation is failed" });
+        } else {
+            res.send({ status: true, message: "Task creation is success" });
         }
     })
 })
 
 //view the tasks
-server.get("/api/todo/",(req,res)=>{
+server.get("/api/todo/", (req, res) => {
     let sql = "SELECT * FROM todo";
-    db.query(sql,function(error,result){
-        if(error){
+    db.query(sql, function (error, result) {
+        if (error) {
             console.log("Error occurred")
-        }else{
+        } else {
             console.log(result)
-            res.send({status: true,data : result});
+            res.send({ status: true, data: result });
         }
     })
 })
 
 //update the task
-server.put("/api/todo/update/:id",(req,res)=>{
+server.put("/api/todo/update/:id", (req, res) => {
     let sql = "UPDATE todo SET task='" + req.body.task + "'" + " WHERE id=" + req.params.id;
-    let a = db.query(sql,(error,result)=>{
-        if(error){
-            res.send({status: false,message: "Task update is failed"});
-        }else{
-            res.send({status: true,message: "Task update is success"});
+    let a = db.query(sql, (error, result) => {
+        if (error) {
+            res.send({ status: false, message: "Task update is failed" });
+        } else {
+            res.send({ status: true, message: "Task update is success" });
         }
     })
 })
 
 
 //delete the task
-server.delete("/api/todo/delete/:id",(req,res)=>{
+server.delete("/api/todo/delete/:id", (req, res) => {
     let sql = "DELETE FROM todo WHERE id=" + req.params.id;
-    let query = db.query(sql,(error)=>{
-        if(error){
-            res.send({status: false,message: "Task deletion is failed"});
-        }else{
-            res.send({status: true,message: "Task deletion is success"});
+    let query = db.query(sql, (error) => {
+        if (error) {
+            res.send({ status: false, message: "Task deletion is failed" });
+        } else {
+            res.send({ status: true, message: "Task deletion is success" });
         }
     })
 })
